@@ -1,0 +1,23 @@
+{
+  "name": "Pro Sports Academy",
+  "short_name": "PSA",
+  "description": "Pro Sports Academy official app for fixtures, results, roster, and news.",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#080d1a",
+  "theme_color": "#76ff03",
+  "icons": [
+    {
+      "src": "badge.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "badge.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
