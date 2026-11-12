@@ -182,7 +182,6 @@
             overflow: hidden;
             flex-shrink: 0;
             border: 1px solid #475569;
-            position: relative;
         }
         .staff-img-container img {
             width: 100%;
@@ -354,7 +353,6 @@
     <script>
         let isAdmin = false;
 
-        // Default Staff Data
         let staffList = [
             {
                 name: "Coach David Mwangi",
@@ -436,14 +434,12 @@
                 btn.style.background = "#ef4444";
                 btn.style.color = "#fff";
                 editables.forEach(el => el.setAttribute('contenteditable', 'true'));
-                alert('Admin Edit Mode Enabled! You can now edit text, add new coaches, and update photos.');
             } else {
                 body.classList.remove('admin-mode');
                 btn.innerText = "Admin";
                 btn.style.background = "transparent";
                 btn.style.color = "var(--primary)";
                 editables.forEach(el => el.setAttribute('contenteditable', 'false'));
-                alert('Admin Mode Disabled.');
             }
             renderStaff();
         }
@@ -452,7 +448,6 @@
             document.querySelectorAll('.tab-btn')[4].click();
         }
 
-        // Initial render
         renderStaff();
     </script>
 </body>
