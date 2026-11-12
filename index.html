@@ -7,234 +7,7 @@
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#10b981">
     <link rel="apple-touch-icon" href="badge.png">
-    <style>
-        :root {
-            --primary: #10b981;
-            --primary-dark: #059669;
-            --bg-dark: #0f172a;
-            --bg-card: #1e293b;
-            --text-light: #f8fafc;
-            --text-muted: #94a3b8;
-        }
-        body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-light);
-            margin: 0;
-            padding: 0;
-            padding-bottom: 50px;
-        }
-        header {
-            background-color: var(--bg-card);
-            padding: 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #334155;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .brand img {
-            width: 45px;
-            height: 45px;
-            border-radius: 8px;
-            object-fit: cover;
-        }
-        .brand h1 {
-            font-size: 1.1rem;
-            margin: 0;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-        .brand span {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            display: block;
-        }
-        .actions {
-            display: flex;
-            gap: 8px;
-        }
-        .btn {
-            background-color: var(--primary);
-            color: #000;
-            border: none;
-            padding: 8px 14px;
-            border-radius: 6px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-        }
-        .btn-outline {
-            background-color: transparent;
-            color: var(--primary);
-            border: 1px solid var(--primary);
-        }
-        .btn-danger {
-            background-color: #ef4444;
-            color: #fff;
-            border: none;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            cursor: pointer;
-            margin-top: 8px;
-        }
-        .nav-tabs {
-            display: flex;
-            background-color: var(--bg-card);
-            padding: 0 12px 12px 12px;
-            gap: 8px;
-            overflow-x: auto;
-            border-bottom: 1px solid #334155;
-        }
-        .tab-btn {
-            background: #334155;
-            color: var(--text-light);
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            white-space: nowrap;
-            font-weight: 600;
-        }
-        .tab-btn.active {
-            background-color: var(--primary);
-            color: #000;
-        }
-        .container {
-            padding: 16px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        .card {
-            background-color: var(--bg-card);
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 16px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
-            border: 1px solid #334155;
-        }
-        .card h2 {
-            margin-top: 0;
-            color: var(--primary);
-            font-size: 1.2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        p, ul {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-        ul {
-            padding-left: 20px;
-            margin-bottom: 0;
-        }
-        li {
-            margin-bottom: 6px;
-        }
-        .tab-content {
-            display: none;
-        }
-        .tab-content.active {
-            display: block;
-        }
-        /* Admin Edit Styles */
-        .editable {
-            border: 1px dashed transparent;
-            padding: 2px 4px;
-            border-radius: 4px;
-        }
-        .admin-mode .editable {
-            border-color: var(--primary);
-            background: rgba(16, 185, 129, 0.1);
-            cursor: pointer;
-        }
-        .staff-card {
-            display: flex;
-            gap: 12px;
-            align-items: flex-start;
-            margin-bottom: 16px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid #334155;
-        }
-        .staff-card:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-        .staff-img-container {
-            width: 70px;
-            height: 70px;
-            border-radius: 8px;
-            background: #334155;
-            overflow: hidden;
-            flex-shrink: 0;
-            border: 1px solid #475569;
-        }
-        .staff-img-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-top: 12px;
-        }
-        .gallery-item {
-            background: #334155;
-            height: 130px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            overflow: hidden;
-            border: 1px solid #475569;
-            position: relative;
-        }
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        form label {
-            display: block;
-            font-size: 0.85rem;
-            color: var(--text-light);
-            margin-bottom: 4px;
-            margin-top: 10px;
-        }
-        form input, form select {
-            width: 100%;
-            padding: 10px;
-            border-radius: 6px;
-            border: 1px solid #475569;
-            background: #0f172a;
-            color: #fff;
-            box-sizing: border-box;
-        }
-        .admin-only-control {
-            display: none;
-        }
-        .admin-mode .admin-only-control {
-            display: inline-block;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body id="appBody">
 
@@ -268,22 +41,19 @@
         <div id="about" class="tab-content active">
             <div class="card">
                 <h2>Our Vision</h2>
-                <p class="editable" contenteditable="false" id="visionText">To become a leading football academy in Kenya and beyond, recognized for producing talented, disciplined, and intelligent players.</p>
+                <p class="editable" contenteditable="false">To become a leading football academy in Kenya and beyond, recognized for producing talented, disciplined, and intelligent players.</p>
             </div>
-
             <div class="card">
                 <h2>Our Mission</h2>
-                <p class="editable" contenteditable="false" id="missionText">To develop young footballers through professional training, mentorship, and competitive exposure while promoting discipline, education, and life skills.</p>
+                <p class="editable" contenteditable="false">To develop young footballers through professional training, mentorship, and competitive exposure while promoting discipline, education, and life skills.</p>
             </div>
-
             <div class="card">
                 <h2>Academy Philosophy</h2>
-                <p class="editable" contenteditable="false" id="philosophyText">We believe in holistic player development focusing on technical brilliance, tactical understanding, character building, and academic balance.</p>
+                <p class="editable" contenteditable="false">We believe in holistic player development focusing on technical brilliance, tactical understanding, character building, and academic balance.</p>
             </div>
-
             <div class="card">
                 <h2>Core Values</h2>
-                <ul class="editable" contenteditable="false" id="valuesList">
+                <ul class="editable" contenteditable="false">
                     <li>Discipline & Commitment</li>
                     <li>Teamwork & Respect</li>
                     <li>Integrity & Excellence</li>
@@ -299,43 +69,34 @@
                     <button class="btn admin-only-control" onclick="addStaffMember()" style="font-size:0.75rem; padding: 4px 8px;">+ Add Leader</button>
                 </h2>
                 <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom: 12px;">Admin can edit details, update photos, or add new members. Changes save automatically.</p>
-                
-                <div id="staffContainer">
-                    <!-- Dynamic staff items loaded via script -->
-                </div>
+                <div id="staffContainer"></div>
             </div>
         </div>
 
-        <!-- TAB 3: PLAYER PROFILES & SQUADS (U11 - U19) -->
+        <!-- TAB 3: SQUADS -->
         <div id="roster" class="tab-content">
             <div class="card">
                 <h2>Squads & Age Categories (U11 - U19)</h2>
-                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom: 12px;">Explore our competitive youth structures ranging from grassroots to elite levels.</p>
-                
                 <div style="margin-bottom: 14px;">
                     <strong style="color: var(--primary);">Under 11 (U11) - Grassroots Development</strong>
                     <p class="editable" contenteditable="false" style="margin: 4px 0 0 0; font-size:0.85rem;">Focuses on ball mastery, coordination, and fundamental motor skills in a fun environment.</p>
                 </div>
                 <hr style="border:0; border-top:1px solid #334155; margin: 12px 0;">
-
                 <div style="margin-bottom: 14px;">
                     <strong style="color: var(--primary);">Under 13 (U13) - Junior Development</strong>
                     <p class="editable" contenteditable="false" style="margin: 4px 0 0 0; font-size:0.85rem;">Introduction to tactical positioning, small-sided game intelligence, and teamwork.</p>
                 </div>
                 <hr style="border:0; border-top:1px solid #334155; margin: 12px 0;">
-
                 <div style="margin-bottom: 14px;">
                     <strong style="color: var(--primary);">Under 15 (U15) - Intermediate Competitive</strong>
                     <p class="editable" contenteditable="false" style="margin: 4px 0 0 0; font-size:0.85rem;">Advanced technical drills, competitive league fixtures, and physical conditioning.</p>
                 </div>
                 <hr style="border:0; border-top:1px solid #334155; margin: 12px 0;">
-
                 <div style="margin-bottom: 14px;">
                     <strong style="color: var(--primary);">Under 17 (U17) - Elite Youth</strong>
                     <p class="editable" contenteditable="false" style="margin: 4px 0 0 0; font-size:0.85rem;">High-intensity training, tactical match analysis, and scouting exposure.</p>
                 </div>
                 <hr style="border:0; border-top:1px solid #334155; margin: 12px 0;">
-
                 <div>
                     <strong style="color: var(--primary);">Under 19 (U19) - Senior Academy / Pre-Pro</strong>
                     <p class="editable" contenteditable="false" style="margin: 4px 0 0 0; font-size:0.85rem;">Bridging youth football to professional leagues with rigorous tactical demands and high-level competitive exposure.</p>
@@ -343,44 +104,41 @@
             </div>
         </div>
 
-        <!-- TAB 4: TEAM NEWS -->
+        <!-- TAB 4: NEWS -->
         <div id="news" class="tab-content">
             <div class="card">
                 <h2>Team News & Announcements</h2>
-                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom: 12px;">Admin can click 'Admin' to edit team news directly.</p>
-                <div class="editable" contenteditable="false" id="newsText" style="line-height: 1.6;">
+                <div class="editable" contenteditable="false" style="line-height: 1.6;">
                     Welcome to the 2026 season! Trials for our U19 and U17 Elite Squads are open this coming Saturday at the main training grounds. All registered players are required to report by 8:30 AM in full academy training gear.
                 </div>
             </div>
         </div>
 
-        <!-- TAB 5: FIXTURES, RESULTS & HIGHLIGHTS -->
+        <!-- TAB 5: FIXTURES & RESULTS -->
         <div id="fixtures" class="tab-content">
             <div class="card">
                 <h2>Upcoming Fixtures</h2>
-                <div class="editable" contenteditable="false" id="fixturesText" style="line-height: 1.6;">
+                <div class="editable" contenteditable="false" style="line-height: 1.6;">
                     • PSA U19 vs City Youth FC — Saturday, 10:00 AM (Home Ground)<br>
                     • PSA U17 vs Metro Academy — Sunday, 2:00 PM (Away Match)
                 </div>
             </div>
-
             <div class="card">
                 <h2>Recent Results</h2>
-                <div class="editable" contenteditable="false" id="resultsText" style="line-height: 1.6;">
+                <div class="editable" contenteditable="false" style="line-height: 1.6;">
                     • PSA U17 2 - 1 Academy Legends (Friendly Match)<br>
                     • PSA U15 3 - 0 Future Stars FC (League Match)
                 </div>
             </div>
-
             <div class="card">
                 <h2>Highlights & Media</h2>
-                <div class="editable" contenteditable="false" id="highlightsText" style="line-height: 1.6;">
+                <div class="editable" contenteditable="false" style="line-height: 1.6;">
                     Check out our top goals and tactical breakdowns uploaded weekly by the coaching staff. Watch match clips and player spotlights directly via our community links.
                 </div>
             </div>
         </div>
 
-        <!-- TAB 6: PHOTO GALLERY -->
+        <!-- TAB 6: GALLERY -->
         <div id="gallery" class="tab-content">
             <div class="card">
                 <h2>Academy Photo Gallery</h2>
@@ -425,64 +183,6 @@
 
     </div>
 
-    <script>
-        let isAdmin = false;
-
-        let defaultStaff = [
-            {
-                name: "Coach David Mwangi",
-                role: "Head Technical Director & Head Coach",
-                desc: "Over 12 years of youth development experience holding advanced coaching certifications.",
-                img: "badge.png"
-            },
-            {
-                name: "Coach Sarah Ochieng",
-                role: "Goalkeeping & Youth Academy Coach",
-                desc: "Former national league goalkeeper specializing in reflexes, distribution, and mental conditioning.",
-                img: "badge.png"
-            }
-        ];
-
-        let staffList = JSON.parse(localStorage.getItem('psa_staff')) || defaultStaff;
-
-        function saveStaff() {
-            localStorage.setItem('psa_staff', JSON.stringify(staffList));
-        }
-
-        function renderStaff() {
-            const container = document.getElementById('staffContainer');
-            container.innerHTML = '';
-            
-            staffList.forEach((staff, index) => {
-                container.innerHTML += `
-                    <div class="staff-card" id="staff-${index}">
-                        <div class="staff-img-container">
-                            <img src="${staff.img}" alt="Staff Photo" id="staffImg-${index}">
-                        </div>
-                        <div style="flex-grow: 1;">
-                            <div class="admin-only-control" style="margin-bottom: 4px;">
-                                <input type="text" value="${staff.img}" placeholder="Photo Image URL" onchange="updateStaffData(${index}, 'img', this.value)" style="font-size:0.75rem; padding:4px; margin-bottom:4px;">
-                            </div>
-                            <strong style="color: var(--primary);" class="editable" contenteditable="${isAdmin}" onblur="updateStaffData(${index}, 'name', this.innerText)">${staff.name}</strong>
-                            <div style="font-size:0.85rem; color: var(--text-light);" class="editable" contenteditable="${isAdmin}" onblur="updateStaffData(${index}, 'role', this.innerText)">${staff.role}</div>
-                            <p class="editable" contenteditable="${isAdmin}" onblur="updateStaffData(${index}, 'desc', this.innerText)" style="margin: 4px 0 0 0; font-size:0.85rem;">${staff.desc}</p>
-                            
-                            <button class="btn-danger admin-only-control" onclick="removeStaff(${index})">Remove Leader</button>
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        function updateStaffData(index, field, value) {
-            staffList[index][field] = value ? value : (field === 'img' ? 'badge.png' : '');
-            saveStaff();
-            if(field === 'img') renderStaff();
-        }
-
-        function addStaffMember() {
-            staffList.push({
-                name: "New Leader / Coach Name",
-                role: "Title / Position",
-                desc: "Short bio or description goes here...",
-                img: "badge.
+    <script src="script.js"></script>
+</body>
+</html>
