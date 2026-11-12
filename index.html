@@ -4,10 +4,97 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pro Sports Academy - PSA</title>
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#10b981">
-    <link rel="apple-touch-icon" href="badge.png">
-    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --primary: #10b981;
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            margin: 0;
+            padding: 0;
+            padding-bottom: 50px;
+        }
+        header {
+            background-color: var(--bg-card);
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #334155;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .brand { display: flex; align-items: center; gap: 12px; }
+        .brand img { width: 45px; height: 45px; border-radius: 8px; object-fit: cover; }
+        .brand h1 { font-size: 1.1rem; margin: 0; font-weight: 700; }
+        .brand span { font-size: 0.75rem; color: var(--text-muted); display: block; }
+        .actions { display: flex; gap: 8px; }
+        .btn {
+            background-color: var(--primary);
+            color: #000;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+        .btn-outline { background-color: transparent; color: var(--primary); border: 1px solid var(--primary); }
+        .btn-danger { background-color: #ef4444; color: #fff; border: none; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; cursor: pointer; margin-top: 8px; }
+        .nav-tabs {
+            display: flex;
+            background-color: var(--bg-card);
+            padding: 0 12px 12px 12px;
+            gap: 8px;
+            overflow-x: auto;
+            border-bottom: 1px solid #334155;
+        }
+        .tab-btn {
+            background: #334155;
+            color: var(--text-light);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            white-space: nowrap;
+            font-weight: 600;
+        }
+        .tab-btn.active { background-color: var(--primary); color: #000; }
+        .container { padding: 16px; max-width: 600px; margin: 0 auto; }
+        .card {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            border: 1px solid #334155;
+        }
+        .card h2 { margin-top: 0; color: var(--primary); font-size: 1.2rem; display: flex; justify-content: space-between; align-items: center; }
+        p, ul { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; }
+        ul { padding-left: 20px; margin-bottom: 0; }
+        li { margin-bottom: 6px; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .editable { border: 1px dashed transparent; padding: 2px 4px; border-radius: 4px; }
+        .admin-mode .editable { border-color: var(--primary); background: rgba(16, 185, 129, 0.1); cursor: pointer; }
+        .staff-card { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid #334155; }
+        .staff-img-container { width: 70px; height: 70px; border-radius: 8px; background: #334155; overflow: hidden; flex-shrink: 0; border: 1px solid #475569; }
+        .staff-img-container img { width: 100%; height: 100%; object-fit: cover; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 12px; }
+        .gallery-item { background: #334155; height: 130px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 0.85rem; overflow: hidden; border: 1px solid #475569; position: relative; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+        form label { display: block; font-size: 0.85rem; color: var(--text-light); margin-bottom: 4px; margin-top: 10px; }
+        form input, form select { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #475569; background: #0f172a; color: #fff; box-sizing: border-box; }
+        .admin-only-control { display: none; }
+        .admin-mode .admin-only-control { display: inline-block; }
+    </style>
 </head>
 <body id="appBody">
 
@@ -20,7 +107,7 @@
             </div>
         </div>
         <div class="actions">
-            <button class="btn" onclick="openRegister()">Register Player</button>
+            <button class="btn" onclick="openRegister()">Register</button>
             <button class="btn btn-outline" id="adminToggleBtn" onclick="toggleAdminMode()">Admin</button>
         </div>
     </header>
@@ -30,14 +117,13 @@
         <button class="tab-btn" onclick="switchTab('leadership', this)">Leadership</button>
         <button class="tab-btn" onclick="switchTab('roster', this)">Squads</button>
         <button class="tab-btn" onclick="switchTab('news', this)">News</button>
-        <button class="tab-btn" onclick="switchTab('fixtures', this)">Fixtures & Results</button>
+        <button class="tab-btn" onclick="switchTab('fixtures', this)">Fixtures</button>
         <button class="tab-btn" onclick="switchTab('gallery', this)">Gallery</button>
         <button class="tab-btn" onclick="switchTab('register', this)">Register</button>
     </div>
 
     <div class="container">
-
-        <!-- TAB 1: ABOUT & PHILOSOPHY -->
+        <!-- ABOUT -->
         <div id="about" class="tab-content active">
             <div class="card">
                 <h2>Our Vision</h2>
@@ -61,128 +147,152 @@
             </div>
         </div>
 
-        <!-- TAB 2: LEADERSHIP & COACHING -->
+        <!-- LEADERSHIP -->
         <div id="leadership" class="tab-content">
             <div class="card">
                 <h2>
                     Leadership & Coaching
                     <button class="btn admin-only-control" onclick="addStaffMember()" style="font-size:0.75rem; padding: 4px 8px;">+ Add Leader</button>
                 </h2>
-                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom: 12px;">Admin can edit details, update photos, or add new members. Changes save automatically.</p>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom: 12px;">Admin can edit details, update photos, or add new members.</p>
                 <div id="staffContainer"></div>
             </div>
         </div>
 
-        <!-- TAB 3: SQUADS -->
+        <!-- SQUADS -->
         <div id="roster" class="tab-content">
             <div class="card">
                 <h2>Squads & Age Categories (U11 - U19)</h2>
-                <div style="margin-bottom: 14px;">
-                    <strong style="color: var(--primary);">Under 11 (U11) - Grassroots Development</strong>
-                    <p class="editable" contenteditable="false" style="margin: 4px 0 0 0; font-size:0.85rem;">Focuses on ball mastery, coordination, and fundamental motor skills in a fun environment.</p>
-                </div>
+                <div style="margin-bottom: 14px;"><strong style="color: var(--primary);">Under 11 (U11)</strong><p class="editable" contenteditable="false" style="margin: 4px 0 0 0; font-size:0.85rem;">Focuses on ball mastery and coordination.</p></div>
                 <hr style="border:0; border-top:1px solid #334155; margin: 12px 0;">
-                <div style="margin-bottom: 14px;">
-                    <strong style="color: var(--primary);">Under 13 (U13) - Junior Development</strong>
-                    <p class="editable" contenteditable="false" style="margin: 4px 0 0 0; font-size:0.85rem;">Introduction to tactical positioning, small-sided game intelligence, and teamwork.</p>
-                </div>
+                <div style="margin-bottom: 14px;"><strong style="color: var(--primary);">Under 13 (U13)</strong><p class="editable" contenteditable="false" style="margin: 4px 0 0 0; font-size:0.85rem;">Introduction to tactical positioning.</p></div>
                 <hr style="border:0; border-top:1px solid #334155; margin: 12px 0;">
-                <div style="margin-bottom: 14px;">
-                    <strong style="color: var(--primary);">Under 15 (U15) - Intermediate Competitive</strong>
-                    <p class="editable" contenteditable="false" style="margin: 4px 0 0 0; font-size:0.85rem;">Advanced technical drills, competitive league fixtures, and physical conditioning.</p>
-                </div>
+                <div style="margin-bottom: 14px;"><strong style="color: var(--primary);">Under 15 (U15)</strong><p class="editable" contenteditable="false" style="margin: 4px 0 0 0; font-size:0.85rem;">Advanced technical drills and league fixtures.</p></div>
                 <hr style="border:0; border-top:1px solid #334155; margin: 12px 0;">
-                <div style="margin-bottom: 14px;">
-                    <strong style="color: var(--primary);">Under 17 (U17) - Elite Youth</strong>
-                    <p class="editable" contenteditable="false" style="margin: 4px 0 0 0; font-size:0.85rem;">High-intensity training, tactical match analysis, and scouting exposure.</p>
-                </div>
+                <div style="margin-bottom: 14px;"><strong style="color: var(--primary);">Under 17 (U17)</strong><p class="editable" contenteditable="false" style="margin: 4px 0 0 0; font-size:0.85rem;">High-intensity training and scouting exposure.</p></div>
                 <hr style="border:0; border-top:1px solid #334155; margin: 12px 0;">
-                <div>
-                    <strong style="color: var(--primary);">Under 19 (U19) - Senior Academy / Pre-Pro</strong>
-                    <p class="editable" contenteditable="false" style="margin: 4px 0 0 0; font-size:0.85rem;">Bridging youth football to professional leagues with rigorous tactical demands and high-level competitive exposure.</p>
-                </div>
+                <div><strong style="color: var(--primary);">Under 19 (U19)</strong><p class="editable" contenteditable="false" style="margin: 4px 0 0 0; font-size:0.85rem;">Bridging youth football to professional leagues.</p></div>
             </div>
         </div>
 
-        <!-- TAB 4: NEWS -->
+        <!-- NEWS -->
         <div id="news" class="tab-content">
             <div class="card">
-                <h2>Team News & Announcements</h2>
-                <div class="editable" contenteditable="false" style="line-height: 1.6;">
-                    Welcome to the 2026 season! Trials for our U19 and U17 Elite Squads are open this coming Saturday at the main training grounds. All registered players are required to report by 8:30 AM in full academy training gear.
-                </div>
+                <h2>Team News</h2>
+                <div class="editable" contenteditable="false" style="line-height: 1.6;">Welcome to the 2026 season! Trials for our U19 and U17 Elite Squads are open this coming Saturday.</div>
             </div>
         </div>
 
-        <!-- TAB 5: FIXTURES & RESULTS -->
+        <!-- FIXTURES -->
         <div id="fixtures" class="tab-content">
             <div class="card">
-                <h2>Upcoming Fixtures</h2>
-                <div class="editable" contenteditable="false" style="line-height: 1.6;">
-                    • PSA U19 vs City Youth FC — Saturday, 10:00 AM (Home Ground)<br>
-                    • PSA U17 vs Metro Academy — Sunday, 2:00 PM (Away Match)
-                </div>
-            </div>
-            <div class="card">
-                <h2>Recent Results</h2>
-                <div class="editable" contenteditable="false" style="line-height: 1.6;">
-                    • PSA U17 2 - 1 Academy Legends (Friendly Match)<br>
-                    • PSA U15 3 - 0 Future Stars FC (League Match)
-                </div>
-            </div>
-            <div class="card">
-                <h2>Highlights & Media</h2>
-                <div class="editable" contenteditable="false" style="line-height: 1.6;">
-                    Check out our top goals and tactical breakdowns uploaded weekly by the coaching staff. Watch match clips and player spotlights directly via our community links.
-                </div>
+                <h2>Fixtures & Results</h2>
+                <div class="editable" contenteditable="false" style="line-height: 1.6;">• PSA U19 vs City Youth FC — Saturday, 10:00 AM<br>• PSA U17 2 - 1 Academy Legends</div>
             </div>
         </div>
 
-        <!-- TAB 6: GALLERY -->
+        <!-- GALLERY -->
         <div id="gallery" class="tab-content">
             <div class="card">
-                <h2>Academy Photo Gallery</h2>
-                <p style="font-size:0.85rem;">Snapshots from our training sessions and matches.</p>
+                <h2>Gallery</h2>
                 <div class="gallery-grid">
-                    <div class="gallery-item"><img src="badge.png" alt="Gallery 1" style="opacity:0.6;"><span style="position:absolute;">Training Session</span></div>
-                    <div class="gallery-item"><img src="badge.png" alt="Gallery 2" style="opacity:0.6;"><span style="position:absolute;">Match Day</span></div>
-                    <div class="gallery-item"><img src="badge.png" alt="Gallery 3" style="opacity:0.6;"><span style="position:absolute;">Drills</span></div>
-                    <div class="gallery-item"><img src="badge.png" alt="Gallery 4" style="opacity:0.6;"><span style="position:absolute;">Team Spirit</span></div>
+                    <div class="gallery-item"><img src="badge.png" alt="Training" style="opacity:0.6;"><span style="position:absolute;">Training</span></div>
+                    <div class="gallery-item"><img src="badge.png" alt="Matches" style="opacity:0.6;"><span style="position:absolute;">Matches</span></div>
                 </div>
             </div>
         </div>
 
-        <!-- TAB 7: REGISTER -->
+        <!-- REGISTER -->
         <div id="register" class="tab-content">
             <div class="card">
                 <h2>Player Registration</h2>
-                <form onsubmit="event.preventDefault(); alert('Registration submitted successfully! Our team will contact you.');">
-                    <label>Player Full Name</label>
-                    <input type="text" placeholder="Enter player name" required>
-
-                    <label>Date of Birth / Age Group</label>
-                    <select>
-                        <option>Under 11 (U11)</option>
-                        <option>Under 13 (U13)</option>
-                        <option>Under 15 (U15)</option>
-                        <option>Under 17 (U17)</option>
-                        <option>Under 19 (U19)</option>
-                        <option>Senior / Elite</option>
-                    </select>
-
-                    <label>Parent / Guardian Contact</label>
-                    <input type="tel" placeholder="Phone number" required>
-
-                    <label>Email Address</label>
-                    <input type="email" placeholder="Email address">
-
-                    <button type="submit" class="btn" style="width:100%; margin-top:16px;">Submit Registration</button>
+                <form onsubmit="event.preventDefault(); alert('Submitted successfully!');">
+                    <label>Full Name</label><input type="text" required>
+                    <label>Age Group</label>
+                    <select><option>U11</option><option>U13</option><option>U15</option><option>U17</option><option>U19</option></select>
+                    <label>Contact</label><input type="tel" required>
+                    <button type="submit" class="btn" style="width:100%; margin-top:16px;">Submit</button>
                 </form>
             </div>
         </div>
-
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        let isAdmin = false;
+        let defaultStaff = [
+            { name: "Coach David Mwangi", role: "Head Coach", desc: "Over 12 years of youth development experience.", img: "badge.png" },
+            { name: "Coach Sarah Ochieng", role: "Goalkeeping Coach", desc: "Specializing in reflexes and distribution.", img: "badge.png" }
+        ];
+        let staffList = JSON.parse(localStorage.getItem('psa_staff')) || defaultStaff;
+
+        function saveStaff() { localStorage.setItem('psa_staff', JSON.stringify(staffList)); }
+
+        function renderStaff() {
+            const container = document.getElementById('staffContainer');
+            if (!container) return;
+            container.innerHTML = '';
+            staffList.forEach((staff, index) => {
+                container.innerHTML += `
+                    <div class="staff-card">
+                        <div class="staff-img-container"><img src="${staff.img}" alt="Photo"></div>
+                        <div style="flex-grow: 1;">
+                            <div class="admin-only-control" style="margin-bottom: 4px;">
+                                <input type="text" value="${staff.img}" placeholder="Photo URL" onchange="updateStaff(${index}, 'img', this.value)" style="font-size:0.75rem; padding:4px; width:100%; background:#0f172a; color:#fff; border:1px solid #475569; border-radius:4px;">
+                            </div>
+                            <strong style="color: var(--primary);" class="editable" contenteditable="${isAdmin}" onblur="updateStaff(${index}, 'name', this.innerText)">${staff.name}</strong>
+                            <div style="font-size:0.85rem;" class="editable" contenteditable="${isAdmin}" onblur="updateStaff(${index}, 'role', this.innerText)">${staff.role}</div>
+                            <p class="editable" contenteditable="${isAdmin}" onblur="updateStaff(${index}, 'desc', this.innerText)" style="margin: 4px 0 0 0; font-size:0.85rem;">${staff.desc}</p>
+                            <button class="btn-danger admin-only-control" onclick="removeStaff(${index})">Remove</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function updateStaff(i, field, val) {
+            staffList[i][field] = val ? val : 'badge.png';
+            saveStaff();
+            if(field === 'img') renderStaff();
+        }
+
+        function addStaffMember() {
+            staffList.push({ name: "New Coach", role: "Position", desc: "Description...", img: "badge.png" });
+            saveStaff();
+            renderStaff();
+        }
+
+        function removeStaff(i) {
+            if(confirm("Remove staff member?")) { staffList.splice(i, 1); saveStaff(); renderStaff(); }
+        }
+
+        function switchTab(id, btn) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        function toggleAdminMode() {
+            isAdmin = !isAdmin;
+            const body = document.getElementById('appBody');
+            const btn = document.getElementById('adminToggleBtn');
+            if (isAdmin) {
+                body.classList.add('admin-mode');
+                btn.innerText = "Exit Admin";
+                btn.style.background = "#ef4444";
+                btn.style.color = "#fff";
+            } else {
+                body.classList.remove('admin-mode');
+                btn.innerText = "Admin";
+                btn.style.background = "transparent";
+                btn.style.color = "var(--primary)";
+            }
+            renderStaff();
+        }
+
+        function openRegister() { document.querySelectorAll('.tab-btn')[6].click(); }
+
+        renderStaff();
+    </script>
 </body>
 </html>
