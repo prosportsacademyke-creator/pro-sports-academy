@@ -78,6 +78,16 @@
             color: var(--primary);
             border: 1px solid var(--primary);
         }
+        .btn-danger {
+            background-color: #ef4444;
+            color: #fff;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            margin-top: 8px;
+        }
         .nav-tabs {
             display: flex;
             background-color: var(--bg-card);
@@ -151,6 +161,34 @@
             background: rgba(16, 185, 129, 0.1);
             cursor: pointer;
         }
+        .staff-card {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #334155;
+        }
+        .staff-card:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .staff-img-container {
+            width: 70px;
+            height: 70px;
+            border-radius: 8px;
+            background: #334155;
+            overflow: hidden;
+            flex-shrink: 0;
+            border: 1px solid #475569;
+            position: relative;
+        }
+        .staff-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -168,6 +206,7 @@
             font-size: 0.85rem;
             overflow: hidden;
             border: 1px solid #475569;
+            position: relative;
         }
         .gallery-item img {
             width: 100%;
@@ -189,6 +228,12 @@
             background: #0f172a;
             color: #fff;
             box-sizing: border-box;
+        }
+        .admin-only-control {
+            display: none;
+        }
+        .admin-mode .admin-only-control {
+            display: inline-block;
         }
     </style>
 </head>
@@ -221,7 +266,7 @@
         <!-- TAB 1: ABOUT & VISION -->
         <div id="about" class="tab-content active">
             <div class="card">
-                <h2>Our Vision <span style="font-size:0.75rem; color:var(--primary);" class="admin-hint"></span></h2>
+                <h2>Our Vision</h2>
                 <p class="editable" contenteditable="false" id="visionText">To become a leading football academy in Kenya and beyond, recognized for producing talented, disciplined, and intelligent players.</p>
             </div>
 
@@ -243,21 +288,14 @@
         <!-- TAB 2: LEADERSHIP & COACHING -->
         <div id="leadership" class="tab-content">
             <div class="card">
-                <h2>Academy Leadership & Coaching Staff</h2>
-                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom: 12px;">Admin can click Edit to update staff names, roles, and descriptions.</p>
+                <h2>
+                    Leadership & Coaching
+                    <button class="btn admin-only-control" onclick="addStaffMember()" style="font-size:0.75rem; padding: 4px 8px;">+ Add Leader / Coach</button>
+                </h2>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom: 12px;">Admin can edit details directly or add new members.</p>
                 
-                <div style="margin-bottom: 14px;">
-                    <strong style="color: var(--primary);" class="editable" contenteditable="false" id="staff1Name">Coach David Mwangi</strong>
-                    <div style="font-size:0.85rem; color: var(--text-light);" class="editable" contenteditable="false" id="staff1Role">Head Technical Director & Head Coach</div>
-                    <p class="editable" contenteditable="false" id="staff1Desc" style="margin: 4px 0 0 0; font-size:0.85rem;">Over 12 years of youth development experience holding advanced coaching certifications.</p>
-                </div>
-
-                <hr style="border:0; border-top:1px solid #334155; margin: 12px 0;">
-
-                <div>
-                    <strong style="color: var(--primary);" class="editable" contenteditable="false" id="staff2Name">Coach Sarah Ochieng</strong>
-                    <div style="font-size:0.85rem; color: var(--text-light);" class="editable" contenteditable="false" id="staff2Role">Goalkeeping & Youth Academy Coach</div>
-                    <p class="editable" contenteditable="false" id="staff2Desc" style="margin: 4px 0 0 0; font-size:0.85rem;">Former national league goalkeeper specializing in reflexes, distribution, and mental conditioning.</p>
+                <div id="staffContainer">
+                    <!-- Dynamic staff items will load here -->
                 </div>
             </div>
         </div>
@@ -316,6 +354,69 @@
     <script>
         let isAdmin = false;
 
+        // Default Staff Data
+        let staffList = [
+            {
+                name: "Coach David Mwangi",
+                role: "Head Technical Director & Head Coach",
+                desc: "Over 12 years of youth development experience holding advanced coaching certifications.",
+                img: "badge.png"
+            },
+            {
+                name: "Coach Sarah Ochieng",
+                role: "Goalkeeping & Youth Academy Coach",
+                desc: "Former national league goalkeeper specializing in reflexes, distribution, and mental conditioning.",
+                img: "badge.png"
+            }
+        ];
+
+        function renderStaff() {
+            const container = document.getElementById('staffContainer');
+            container.innerHTML = '';
+            
+            staffList.forEach((staff, index) => {
+                container.innerHTML += `
+                    <div class="staff-card" id="staff-${index}">
+                        <div class="staff-img-container">
+                            <img src="${staff.img}" alt="Staff Photo" id="staffImg-${index}">
+                        </div>
+                        <div style="flex-grow: 1;">
+                            <div class="admin-only-control" style="margin-bottom: 4px;">
+                                <input type="text" value="${staff.img}" placeholder="Photo Image URL" onchange="updateStaffImg(${index}, this.value)" style="font-size:0.75rem; padding:4px; margin-bottom:4px;">
+                            </div>
+                            <strong style="color: var(--primary);" class="editable" contenteditable="${isAdmin}" onblur="staffList[index].name=this.innerText">${staff.name}</strong>
+                            <div style="font-size:0.85rem; color: var(--text-light);" class="editable" contenteditable="${isAdmin}" onblur="staffList[index].role=this.innerText">${staff.role}</div>
+                            <p class="editable" contenteditable="${isAdmin}" onblur="staffList[index].desc=this.innerText" style="margin: 4px 0 0 0; font-size:0.85rem;">${staff.desc}</p>
+                            
+                            <button class="btn-danger admin-only-control" onclick="removeStaff(${index})">Remove Leader</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function updateStaffImg(index, url) {
+            staffList[index].img = url ? url : 'badge.png';
+            renderStaff();
+        }
+
+        function addStaffMember() {
+            staffList.push({
+                name: "New Leader / Coach Name",
+                role: "Title / Position",
+                desc: "Short bio or description goes here...",
+                img: "badge.png"
+            });
+            renderStaff();
+        }
+
+        function removeStaff(index) {
+            if(confirm("Are you sure you want to remove this staff member?")) {
+                staffList.splice(index, 1);
+                renderStaff();
+            }
+        }
+
         function switchTab(tabId, btn) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
@@ -335,20 +436,24 @@
                 btn.style.background = "#ef4444";
                 btn.style.color = "#fff";
                 editables.forEach(el => el.setAttribute('contenteditable', 'true'));
-                alert('Admin Edit Mode Enabled! You can now tap text fields across the app to edit names, roles, vision, and descriptions.');
+                alert('Admin Edit Mode Enabled! You can now edit text, add new coaches, and update photos.');
             } else {
                 body.classList.remove('admin-mode');
                 btn.innerText = "Admin";
                 btn.style.background = "transparent";
                 btn.style.color = "var(--primary)";
                 editables.forEach(el => el.setAttribute('contenteditable', 'false'));
-                alert('Admin Mode Disabled. Changes are saved locally on this browser view.');
+                alert('Admin Mode Disabled.');
             }
+            renderStaff();
         }
 
         function openRegister() {
             document.querySelectorAll('.tab-btn')[4].click();
         }
+
+        // Initial render
+        renderStaff();
     </script>
 </body>
 </html>
