@@ -171,8 +171,7 @@
       <div class="modal-btn-row"><button type="submit" class="btn-primary" style="flex: 1; padding: 10px;">Save</button><button type="button" id="closeGeneric" class="btn-cancel">Cancel</button></div>
     </form>
   </div></div>
-
-  <script>
+    <script>
     let activeCategory = 'U11';
     let isAdmin = false;
     let players = JSON.parse(localStorage.getItem('psa_players')) || [
@@ -248,4 +247,117 @@
       const list = document.getElementById('newsList');
       list.innerHTML = news.length ? '' : '<p style="color:#64748b; font-size:12px;">No news updates.</p>';
       news.forEach(n => {
-        list.innerHTML += `<div
+        list.innerHTML += `<div class="card"><div class="card-body"><h3 class="card-title">${n.title}</h3><p style="font-size:10px; color:#76ff03; margin-bottom:4px;">${n.date}</p><p class="card-text">${n.desc}</p></div>${isAdmin ? `<div class="card-admin"><button onclick="deleteItem('news', ${n.id})" class="btn-delete">Delete</button></div>` : ''}</div>`;
+      });
+    }
+    function renderMedia() {
+      const list = document.getElementById('mediaList');
+      list.innerHTML = media.length ? '' : '<p style="color:#64748b; font-size:12px;">No highlights.</p>';
+      media.forEach(m => {
+        list.innerHTML += `<div class="card"><div class="card-body"><h3 class="card-title">${m.title}</h3><p class="card-text" style="margin-bottom:8px;">${m.desc}</p><a href="${m.url}" target="_blank" style="color:#76ff03; font-size:11px; font-weight:bold; text-decoration:none;">  Watch Highlight Video</a></div>${isAdmin ? `<div class="card-admin"><button onclick="deleteItem('media', ${m.id})" class="btn-delete">Delete</button></div>` : ''}</div>`;
+      });
+    }
+    function toggleAdminUI() {
+      ['addFixtureBtn', 'addResultBtn', 'addNewsBtn', 'addMediaBtn'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = isAdmin ? 'inline-block' : 'none';
+      });
+    }
+    window.deleteItem = function(type, id) {
+      if (confirm('Delete this record?')) {
+        if (type === 'players') players = players.filter(i => i.id !== id);
+        if (type === 'fixtures') fixtures = fixtures.filter(i => i.id !== id);
+        if (type === 'results') results = results.filter(i => i.id !== id);
+        if (type === 'news') news = news.filter(i => i.id !== id);
+        if (type === 'media') media = media.filter(i => i.id !== id);
+        saveData();
+        renderAll();
+      }
+    };
+    document.querySelectorAll('.main-tab').forEach(tab => {
+      tab.onclick = (e) => {
+        document.querySelectorAll('.main-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+        e.target.classList.add('active');
+        document.getElementById(e.target.dataset.target).classList.add('active');
+      };
+    });
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.onclick = (e) => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        activeCategory = e.target.dataset.cat;
+        renderPlayers();
+      };
+    });
+    document.getElementById('regBtn').onclick = () => document.getElementById('regModal').style.display = 'flex';
+    document.getElementById('closeReg').onclick = () => document.getElementById('regModal').style.display = 'none';
+    document.getElementById('admBtn').onclick = () => document.getElementById('admModal').style.display = 'flex';
+    document.getElementById('closeAdm').onclick = () => document.getElementById('admModal').style.display = 'none';
+    document.getElementById('closeGeneric').onclick = () => document.getElementById('genericModal').style.display = 'none';
+    document.getElementById('loginBtn').onclick = () => {
+      if (document.getElementById('passcode').value === '2026') {
+        isAdmin = true;
+        alert('Admin Access Granted!');
+        document.getElementById('admModal').style.display = 'none';
+        renderAll();
+      } else { alert('Incorrect Passcode'); }
+    };
+    document.getElementById('pPhoto').onchange = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (evt) => document.getElementById('pPhotoData').value = evt.target.result;
+        reader.readAsDataURL(file);
+      }
+    };
+    document.getElementById('regForm').onsubmit = (e) => {
+      e.preventDefault();
+      const newCat = document.getElementById('pCategory').value;
+      players.push({
+        id: Date.now(),
+        name: document.getElementById('pName').value,
+        category: newCat,
+        position: document.getElementById('pPosition').value,
+        jersey: parseInt(document.getElementById('pJersey').value),
+        goals: parseInt(document.getElementById('pGoals').value) || 0,
+        assists: parseInt(document.getElementById('pAssists').value) || 0,
+        bio: document.getElementById('pBio').value,
+        photo: document.getElementById('pPhotoData').value
+      });
+      saveData();
+      activeCategory = newCat;
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        if (b.dataset.cat === activeCategory) b.classList.add('active');
+        else b.classList.remove('active');
+      });
+      renderPlayers();
+      document.getElementById('regModal').style.display = 'none';
+      e.target.reset();
+      document.getElementById('pPhotoData').value = '';
+    };
+    let currentGenericType = '';
+    function openGenericForm(title, type, htmlFields) {
+      currentGenericType = type;
+      document.getElementById('genericModalTitle').innerText = title;
+      document.getElementById('genericFormFields').innerHTML = htmlFields;
+      document.getElementById('genericModal').style.display = 'flex';
+    }
+    document.getElementById('addFixtureBtn').onclick = () => openGenericForm('Add Fixture', 'fixtures', `<label>Title</label><input type="text" id="gTitle" required><label>Date</label><input type="text" id="gDate" required><label>Location</label><input type="text" id="gLocation" required>`);
+    document.getElementById('addResultBtn').onclick = () => openGenericForm('Add Result', 'results', `<label>Title</label><input type="text" id="gTitle" required><label>Score</label><input type="text" id="gScore" required><label>Summary</label><textarea id="gSummary" rows="2" required></textarea>`);
+    document.getElementById('addNewsBtn').onclick = () => openGenericForm('Add News', 'news', `<label>Headline</label><input type="text" id="gTitle" required><label>Date</label><input type="text" id="gDate" required><label>Description</label><textarea id="gDesc" rows="2" required></textarea>`);
+    document.getElementById('addMediaBtn').onclick = () => openGenericForm('Add Media', 'media', `<label>Title</label><input type="text" id="gTitle" required><label>Video URL</label><input type="text" id="gUrl" required><label>Description</label><input type="text" id="gDesc" required>`);
+    document.getElementById('genericForm').onsubmit = (e) => {
+      e.preventDefault();
+      if (currentGenericType === 'fixtures') fixtures.push({ id: Date.now(), title: document.getElementById('gTitle').value, date: document.getElementById('gDate').value, location: document.getElementById('gLocation').value });
+      if (currentGenericType === 'results') results.push({ id: Date.now(), title: document.getElementById('gTitle').value, score: document.getElementById('gScore').value, summary: document.getElementById('gSummary').value });
+      if (currentGenericType === 'news') news.push({ id: Date.now(), title: document.getElementById('gTitle').value, date: document.getElementById('gDate').value, desc: document.getElementById('gDesc').value });
+      if (currentGenericType === 'media') media.push({ id: Date.now(), title: document.getElementById('gTitle').value, url: document.getElementById('gUrl').value, desc: document.getElementById('gDesc').value });
+      saveData();
+      document.getElementById('genericModal').style.display = 'none';
+      renderAll();
+    };
+    renderAll();
+  </script>
+</body>
+</html>
