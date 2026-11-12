@@ -253,16 +253,17 @@
     </header>
 
     <div class="nav-tabs">
-        <button class="tab-btn active" onclick="switchTab('about', this)">About & Vision</button>
+        <button class="tab-btn active" onclick="switchTab('about', this)">About & Philosophy</button>
         <button class="tab-btn" onclick="switchTab('leadership', this)">Leadership & Coaching</button>
-        <button class="tab-btn" onclick="switchTab('programs', this)">Programs</button>
+        <button class="tab-btn" onclick="switchTab('roster', this)">Player Profiles & Squads</button>
+        <button class="tab-btn" onclick="switchTab('updates', this)">News & Fixtures</button>
         <button class="tab-btn" onclick="switchTab('gallery', this)">Gallery</button>
         <button class="tab-btn" onclick="switchTab('register', this)">Register</button>
     </div>
 
     <div class="container">
 
-        <!-- TAB 1: ABOUT & VISION -->
+        <!-- TAB 1: ABOUT & PHILOSOPHY -->
         <div id="about" class="tab-content active">
             <div class="card">
                 <h2>Our Vision</h2>
@@ -272,6 +273,11 @@
             <div class="card">
                 <h2>Our Mission</h2>
                 <p class="editable" contenteditable="false" id="missionText">To develop young footballers through professional training, mentorship, and competitive exposure while promoting discipline, education, and life skills.</p>
+            </div>
+
+            <div class="card">
+                <h2>Academy Philosophy</h2>
+                <p class="editable" contenteditable="false" id="philosophyText">We believe in holistic player development focusing on technical brilliance, tactical understanding, character building, and academic balance.</p>
             </div>
 
             <div class="card">
@@ -291,23 +297,75 @@
                     Leadership & Coaching
                     <button class="btn admin-only-control" onclick="addStaffMember()" style="font-size:0.75rem; padding: 4px 8px;">+ Add Leader / Coach</button>
                 </h2>
-                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom: 12px;">Admin can edit details directly or add new members.</p>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom: 12px;">Admin can edit details directly, update photos, or add new members. Changes save automatically.</p>
                 
                 <div id="staffContainer">
-                    <!-- Dynamic staff items will load here -->
+                    <!-- Dynamic staff items loaded via script -->
                 </div>
             </div>
         </div>
 
-        <!-- TAB 3: PROGRAMS -->
-        <div id="programs" class="tab-content">
+        <!-- TAB 3: PLAYER PROFILES & SQUADS (U11 - U19) -->
+        <div id="roster" class="tab-content">
             <div class="card">
-                <h2>Training Programs</h2>
-                <p class="editable" contenteditable="false" id="programsText">We cater to various age groups with customized weekly training modules covering tactical awareness, physical fitness, ball mastery, and competitive league fixtures.</p>
+                <h2>Academy Age Categories & Squads</h2>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom: 12px;">Explore our competitive youth structures ranging from grassroots to elite levels.</p>
+                
+                <div style="margin-bottom: 14px;">
+                    <strong style="color: var(--primary);">Under 11 (U11) - Grassroots Development</strong>
+                    <p class="editable" contenteditable="false" style="margin: 4px 0 0 0; font-size:0.85rem;">Focuses on ball mastery, coordination, and fundamental motor skills in a fun environment.</p>
+                </div>
+                <hr style="border:0; border-top:1px solid #334155; margin: 12px 0;">
+
+                <div style="margin-bottom: 14px;">
+                    <strong style="color: var(--primary);">Under 13 (U13) - Junior Development</strong>
+                    <p class="editable" contenteditable="false" style="margin: 4px 0 0 0; font-size:0.85rem;">Introduction to tactical positioning, small-sided game intelligence, and teamwork.</p>
+                </div>
+                <hr style="border:0; border-top:1px solid #334155; margin: 12px 0;">
+
+                <div style="margin-bottom: 14px;">
+                    <strong style="color: var(--primary);">Under 15 (U15) - Intermediate Competitive</strong>
+                    <p class="editable" contenteditable="false" style="margin: 4px 0 0 0; font-size:0.85rem;">Advanced technical drills, competitive league fixtures, and physical conditioning.</p>
+                </div>
+                <hr style="border:0; border-top:1px solid #334155; margin: 12px 0;">
+
+                <div style="margin-bottom: 14px;">
+                    <strong style="color: var(--primary);">Under 17 (U17) - Elite Youth</strong>
+                    <p class="editable" contenteditable="false" style="margin: 4px 0 0 0; font-size:0.85rem;">High-intensity training, tactical match analysis, and scouting exposure.</p>
+                </div>
+                <hr style="border:0; border-top:1px solid #334155; margin: 12px 0;">
+
+                <div>
+                    <strong style="color: var(--primary);">Under 19 (U19) - Senior Academy / Pre-Pro</strong>
+                    <p class="editable" contenteditable="false" style="margin: 4px 0 0 0; font-size:0.85rem;">Bridging youth football to professional leagues with rigorous tactical demands and high-level competitive exposure.</p>
+                </div>
             </div>
         </div>
 
-        <!-- TAB 4: PHOTO GALLERY -->
+        <!-- TAB 4: TEAM NEWS, FIXTURES, RESULTS & HIGHLIGHTS -->
+        <div id="updates" class="tab-content">
+            <div class="card">
+                <h2>Team News & Announcements</h2>
+                <p class="editable" contenteditable="false" id="newsText">Welcome to the 2026 season! Trials for our U19 and U17 Elite Squads are open this coming Saturday at the main training grounds.</p>
+            </div>
+
+            <div class="card">
+                <h2>Upcoming Fixtures</h2>
+                <p class="editable" contenteditable="false" id="fixturesText">PSA U19 vs City Youth FC — Saturday, 10:00 AM (Home Ground)</p>
+            </div>
+
+            <div class="card">
+                <h2>Recent Results</h2>
+                <p class="editable" contenteditable="false" id="resultsText">PSA U17 2 - 1 Academy Legends (Friendly Match)</p>
+            </div>
+
+            <div class="card">
+                <h2>Highlights</h2>
+                <p class="editable" contenteditable="false" id="highlightsText">Check out our top goals and tactical breakdowns uploaded weekly by the coaching staff.</p>
+            </div>
+        </div>
+
+        <!-- TAB 5: PHOTO GALLERY -->
         <div id="gallery" class="tab-content">
             <div class="card">
                 <h2>Academy Photo Gallery</h2>
@@ -321,7 +379,7 @@
             </div>
         </div>
 
-        <!-- TAB 5: REGISTER -->
+        <!-- TAB 6: REGISTER -->
         <div id="register" class="tab-content">
             <div class="card">
                 <h2>Player Registration</h2>
@@ -331,9 +389,11 @@
 
                     <label>Date of Birth / Age Group</label>
                     <select>
-                        <option>Under 10 (U10)</option>
+                        <option>Under 11 (U11)</option>
                         <option>Under 13 (U13)</option>
+                        <option>Under 15 (U15)</option>
                         <option>Under 17 (U17)</option>
+                        <option>Under 19 (U19)</option>
                         <option>Senior / Elite</option>
                     </select>
 
@@ -353,7 +413,8 @@
     <script>
         let isAdmin = false;
 
-        let staffList = [
+        // Load saved staff from localStorage if available, otherwise use defaults
+        let defaultStaff = [
             {
                 name: "Coach David Mwangi",
                 role: "Head Technical Director & Head Coach",
@@ -368,6 +429,12 @@
             }
         ];
 
+        let staffList = JSON.parse(localStorage.getItem('psa_staff')) || defaultStaff;
+
+        function saveStaff() {
+            localStorage.setItem('psa_staff', JSON.stringify(staffList));
+        }
+
         function renderStaff() {
             const container = document.getElementById('staffContainer');
             container.innerHTML = '';
@@ -380,11 +447,11 @@
                         </div>
                         <div style="flex-grow: 1;">
                             <div class="admin-only-control" style="margin-bottom: 4px;">
-                                <input type="text" value="${staff.img}" placeholder="Photo Image URL" onchange="updateStaffImg(${index}, this.value)" style="font-size:0.75rem; padding:4px; margin-bottom:4px;">
+                                <input type="text" value="${staff.img}" placeholder="Photo Image URL" onchange="updateStaffData(${index}, 'img', this.value)" style="font-size:0.75rem; padding:4px; margin-bottom:4px;">
                             </div>
-                            <strong style="color: var(--primary);" class="editable" contenteditable="${isAdmin}" onblur="staffList[index].name=this.innerText">${staff.name}</strong>
-                            <div style="font-size:0.85rem; color: var(--text-light);" class="editable" contenteditable="${isAdmin}" onblur="staffList[index].role=this.innerText">${staff.role}</div>
-                            <p class="editable" contenteditable="${isAdmin}" onblur="staffList[index].desc=this.innerText" style="margin: 4px 0 0 0; font-size:0.85rem;">${staff.desc}</p>
+                            <strong style="color: var(--primary);" class="editable" contenteditable="${isAdmin}" onblur="updateStaffData(${index}, 'name', this.innerText)">${staff.name}</strong>
+                            <div style="font-size:0.85rem; color: var(--text-light);" class="editable" contenteditable="${isAdmin}" onblur="updateStaffData(${index}, 'role', this.innerText)">${staff.role}</div>
+                            <p class="editable" contenteditable="${isAdmin}" onblur="updateStaffData(${index}, 'desc', this.innerText)" style="margin: 4px 0 0 0; font-size:0.85rem;">${staff.desc}</p>
                             
                             <button class="btn-danger admin-only-control" onclick="removeStaff(${index})">Remove Leader</button>
                         </div>
@@ -393,9 +460,10 @@
             });
         }
 
-        function updateStaffImg(index, url) {
-            staffList[index].img = url ? url : 'badge.png';
-            renderStaff();
+        function updateStaffData(index, field, value) {
+            staffList[index][field] = value ? value : (field === 'img' ? 'badge.png' : '');
+            saveStaff();
+            if(field === 'img') renderStaff();
         }
 
         function addStaffMember() {
@@ -405,12 +473,14 @@
                 desc: "Short bio or description goes here...",
                 img: "badge.png"
             });
+            saveStaff();
             renderStaff();
         }
 
         function removeStaff(index) {
             if(confirm("Are you sure you want to remove this staff member?")) {
                 staffList.splice(index, 1);
+                saveStaff();
                 renderStaff();
             }
         }
@@ -424,31 +494,4 @@
 
         function toggleAdminMode() {
             isAdmin = !isAdmin;
-            const body = document.getElementById('appBody');
-            const btn = document.getElementById('adminToggleBtn');
-            const editables = document.querySelectorAll('.editable');
-
-            if (isAdmin) {
-                body.classList.add('admin-mode');
-                btn.innerText = "Exit Admin";
-                btn.style.background = "#ef4444";
-                btn.style.color = "#fff";
-                editables.forEach(el => el.setAttribute('contenteditable', 'true'));
-            } else {
-                body.classList.remove('admin-mode');
-                btn.innerText = "Admin";
-                btn.style.background = "transparent";
-                btn.style.color = "var(--primary)";
-                editables.forEach(el => el.setAttribute('contenteditable', 'false'));
-            }
-            renderStaff();
-        }
-
-        function openRegister() {
-            document.querySelectorAll('.tab-btn')[4].click();
-        }
-
-        renderStaff();
-    </script>
-</body>
-</html>
+            const b
