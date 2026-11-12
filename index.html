@@ -253,10 +253,11 @@
     </header>
 
     <div class="nav-tabs">
-        <button class="tab-btn active" onclick="switchTab('about', this)">About & Philosophy</button>
-        <button class="tab-btn" onclick="switchTab('leadership', this)">Leadership & Coaching</button>
-        <button class="tab-btn" onclick="switchTab('roster', this)">Player Profiles & Squads</button>
-        <button class="tab-btn" onclick="switchTab('updates', this)">News & Fixtures</button>
+        <button class="tab-btn active" onclick="switchTab('about', this)">About</button>
+        <button class="tab-btn" onclick="switchTab('leadership', this)">Leadership</button>
+        <button class="tab-btn" onclick="switchTab('roster', this)">Squads</button>
+        <button class="tab-btn" onclick="switchTab('news', this)">News</button>
+        <button class="tab-btn" onclick="switchTab('fixtures', this)">Fixtures & Results</button>
         <button class="tab-btn" onclick="switchTab('gallery', this)">Gallery</button>
         <button class="tab-btn" onclick="switchTab('register', this)">Register</button>
     </div>
@@ -295,9 +296,9 @@
             <div class="card">
                 <h2>
                     Leadership & Coaching
-                    <button class="btn admin-only-control" onclick="addStaffMember()" style="font-size:0.75rem; padding: 4px 8px;">+ Add Leader / Coach</button>
+                    <button class="btn admin-only-control" onclick="addStaffMember()" style="font-size:0.75rem; padding: 4px 8px;">+ Add Leader</button>
                 </h2>
-                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom: 12px;">Admin can edit details directly, update photos, or add new members. Changes save automatically.</p>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom: 12px;">Admin can edit details, update photos, or add new members. Changes save automatically.</p>
                 
                 <div id="staffContainer">
                     <!-- Dynamic staff items loaded via script -->
@@ -308,7 +309,7 @@
         <!-- TAB 3: PLAYER PROFILES & SQUADS (U11 - U19) -->
         <div id="roster" class="tab-content">
             <div class="card">
-                <h2>Academy Age Categories & Squads</h2>
+                <h2>Squads & Age Categories (U11 - U19)</h2>
                 <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom: 12px;">Explore our competitive youth structures ranging from grassroots to elite levels.</p>
                 
                 <div style="margin-bottom: 14px;">
@@ -342,30 +343,44 @@
             </div>
         </div>
 
-        <!-- TAB 4: TEAM NEWS, FIXTURES, RESULTS & HIGHLIGHTS -->
-        <div id="updates" class="tab-content">
+        <!-- TAB 4: TEAM NEWS -->
+        <div id="news" class="tab-content">
             <div class="card">
                 <h2>Team News & Announcements</h2>
-                <p class="editable" contenteditable="false" id="newsText">Welcome to the 2026 season! Trials for our U19 and U17 Elite Squads are open this coming Saturday at the main training grounds.</p>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom: 12px;">Admin can click 'Admin' to edit team news directly.</p>
+                <div class="editable" contenteditable="false" id="newsText" style="line-height: 1.6;">
+                    Welcome to the 2026 season! Trials for our U19 and U17 Elite Squads are open this coming Saturday at the main training grounds. All registered players are required to report by 8:30 AM in full academy training gear.
+                </div>
             </div>
+        </div>
 
+        <!-- TAB 5: FIXTURES, RESULTS & HIGHLIGHTS -->
+        <div id="fixtures" class="tab-content">
             <div class="card">
                 <h2>Upcoming Fixtures</h2>
-                <p class="editable" contenteditable="false" id="fixturesText">PSA U19 vs City Youth FC — Saturday, 10:00 AM (Home Ground)</p>
+                <div class="editable" contenteditable="false" id="fixturesText" style="line-height: 1.6;">
+                    • PSA U19 vs City Youth FC — Saturday, 10:00 AM (Home Ground)<br>
+                    • PSA U17 vs Metro Academy — Sunday, 2:00 PM (Away Match)
+                </div>
             </div>
 
             <div class="card">
                 <h2>Recent Results</h2>
-                <p class="editable" contenteditable="false" id="resultsText">PSA U17 2 - 1 Academy Legends (Friendly Match)</p>
+                <div class="editable" contenteditable="false" id="resultsText" style="line-height: 1.6;">
+                    • PSA U17 2 - 1 Academy Legends (Friendly Match)<br>
+                    • PSA U15 3 - 0 Future Stars FC (League Match)
+                </div>
             </div>
 
             <div class="card">
-                <h2>Highlights</h2>
-                <p class="editable" contenteditable="false" id="highlightsText">Check out our top goals and tactical breakdowns uploaded weekly by the coaching staff.</p>
+                <h2>Highlights & Media</h2>
+                <div class="editable" contenteditable="false" id="highlightsText" style="line-height: 1.6;">
+                    Check out our top goals and tactical breakdowns uploaded weekly by the coaching staff. Watch match clips and player spotlights directly via our community links.
+                </div>
             </div>
         </div>
 
-        <!-- TAB 5: PHOTO GALLERY -->
+        <!-- TAB 6: PHOTO GALLERY -->
         <div id="gallery" class="tab-content">
             <div class="card">
                 <h2>Academy Photo Gallery</h2>
@@ -379,7 +394,7 @@
             </div>
         </div>
 
-        <!-- TAB 6: REGISTER -->
+        <!-- TAB 7: REGISTER -->
         <div id="register" class="tab-content">
             <div class="card">
                 <h2>Player Registration</h2>
@@ -413,7 +428,6 @@
     <script>
         let isAdmin = false;
 
-        // Load saved staff from localStorage if available, otherwise use defaults
         let defaultStaff = [
             {
                 name: "Coach David Mwangi",
@@ -471,27 +485,4 @@
                 name: "New Leader / Coach Name",
                 role: "Title / Position",
                 desc: "Short bio or description goes here...",
-                img: "badge.png"
-            });
-            saveStaff();
-            renderStaff();
-        }
-
-        function removeStaff(index) {
-            if(confirm("Are you sure you want to remove this staff member?")) {
-                staffList.splice(index, 1);
-                saveStaff();
-                renderStaff();
-            }
-        }
-
-        function switchTab(tabId, btn) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            btn.classList.add('active');
-        }
-
-        function toggleAdminMode() {
-            isAdmin = !isAdmin;
-            const b
+                img: "badge.
