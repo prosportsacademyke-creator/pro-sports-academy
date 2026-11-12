@@ -84,14 +84,14 @@
         .tab-content.active { display: block; }
         .editable { border: 1px dashed transparent; padding: 2px 4px; border-radius: 4px; }
         .admin-mode .editable { border-color: var(--primary); background: rgba(16, 185, 129, 0.1); cursor: pointer; }
-        .staff-card { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid #334155; }
-        .staff-img-container { width: 70px; height: 70px; border-radius: 8px; background: #334155; overflow: hidden; flex-shrink: 0; border: 1px solid #475569; }
-        .staff-img-container img { width: 100%; height: 100%; object-fit: cover; }
+        .staff-card, .player-card { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid #334155; }
+        .staff-img-container, .player-img-container { width: 70px; height: 70px; border-radius: 8px; background: #334155; overflow: hidden; flex-shrink: 0; border: 1px solid #475569; }
+        .staff-img-container img, .player-img-container img { width: 100%; height: 100%; object-fit: cover; }
         .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 12px; }
         .gallery-item { background: #334155; height: 130px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 0.85rem; overflow: hidden; border: 1px solid #475569; position: relative; }
         .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
         form label { display: block; font-size: 0.85rem; color: var(--text-light); margin-bottom: 4px; margin-top: 10px; }
-        form input, form select { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #475569; background: #0f172a; color: #fff; box-sizing: border-box; }
+        form input, form select, form input[type="file"] { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #475569; background: #0f172a; color: #fff; box-sizing: border-box; }
         .admin-only-control { display: none; }
         .admin-mode .admin-only-control { display: inline-block; }
     </style>
@@ -115,9 +115,9 @@
     <div class="nav-tabs">
         <button class="tab-btn active" onclick="switchTab('about', this)">About</button>
         <button class="tab-btn" onclick="switchTab('leadership', this)">Leadership</button>
-        <button class="tab-btn" onclick="switchTab('roster', this)">Squads</button>
+        <button class="tab-btn" onclick="switchTab('roster', this)">Squads & Players</button>
         <button class="tab-btn" onclick="switchTab('news', this)">News</button>
-        <button class="tab-btn" onclick="switchTab('fixtures', this)">Fixtures</button>
+        <button class="tab-btn" onclick="switchTab('fixtures', this)">Fixtures & Results</button>
         <button class="tab-btn" onclick="switchTab('gallery', this)">Gallery</button>
         <button class="tab-btn" onclick="switchTab('register', this)">Register</button>
     </div>
@@ -154,24 +154,31 @@
                     Leadership & Coaching
                     <button class="btn admin-only-control" onclick="addStaffMember()" style="font-size:0.75rem; padding: 4px 8px;">+ Add Leader</button>
                 </h2>
-                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom: 12px;">Admin can edit details, update photos, or add new members.</p>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom: 12px;">Admin can edit details, upload photos directly from phone, or add new members.</p>
                 <div id="staffContainer"></div>
             </div>
         </div>
 
-        <!-- SQUADS -->
+        <!-- SQUADS & PLAYER PROFILES -->
         <div id="roster" class="tab-content">
             <div class="card">
                 <h2>Squads & Age Categories (U11 - U19)</h2>
-                <div style="margin-bottom: 14px;"><strong style="color: var(--primary);">Under 11 (U11)</strong><p class="editable" contenteditable="false" id="u11Text" onblur="saveContent('u11Text')" style="margin: 4px 0 0 0; font-size:0.85rem;">Focuses on ball mastery and coordination.</p></div>
-                <hr style="border:0; border-top:1px solid #334155; margin: 12px 0;">
-                <div style="margin-bottom: 14px;"><strong style="color: var(--primary);">Under 13 (U13)</strong><p class="editable" contenteditable="false" id="u13Text" onblur="saveContent('u13Text')" style="margin: 4px 0 0 0; font-size:0.85rem;">Introduction to tactical positioning.</p></div>
-                <hr style="border:0; border-top:1px solid #334155; margin: 12px 0;">
-                <div style="margin-bottom: 14px;"><strong style="color: var(--primary);">Under 15 (U15)</strong><p class="editable" contenteditable="false" id="u15Text" onblur="saveContent('u15Text')" style="margin: 4px 0 0 0; font-size:0.85rem;">Advanced technical drills and league fixtures.</p></div>
-                <hr style="border:0; border-top:1px solid #334155; margin: 12px 0;">
-                <div style="margin-bottom: 14px;"><strong style="color: var(--primary);">Under 17 (U17)</strong><p class="editable" contenteditable="false" id="u17Text" onblur="saveContent('u17Text')" style="margin: 4px 0 0 0; font-size:0.85rem;">High-intensity training and scouting exposure.</p></div>
-                <hr style="border:0; border-top:1px solid #334155; margin: 12px 0;">
-                <div><strong style="color: var(--primary);">Under 19 (U19)</strong><p class="editable" contenteditable="false" id="u19Text" onblur="saveContent('u19Text')" style="margin: 4px 0 0 0; font-size:0.85rem;">Bridging youth football to professional leagues.</p></div>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom: 12px;">Our structured youth development pathway.</p>
+                <div class="editable" contenteditable="false" id="squadsText" onblur="saveContent('squadsText')" style="line-height:1.6;">
+                    • <strong>Under 11 (U11):</strong> Focuses on ball mastery and coordination.<br>
+                    • <strong>Under 13 (U13):</strong> Introduction to tactical positioning.<br>
+                    • <strong>Under 15 (U15):</strong> Advanced technical drills and league fixtures.<br>
+                    • <strong>Under 17 (U17):</strong> High-intensity training and scouting exposure.<br>
+                    • <strong>Under 19 (U19):</strong> Bridging youth football to professional leagues.
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>
+                    Featured Player Profiles
+                    <button class="btn admin-only-control" onclick="addPlayerProfile()" style="font-size:0.75rem; padding: 4px 8px;">+ Add Player</button>
+                </h2>
+                <div id="playerContainer"></div>
             </div>
         </div>
 
@@ -183,24 +190,38 @@
             </div>
         </div>
 
-        <!-- FIXTURES -->
+        <!-- FIXTURES & RESULTS -->
         <div id="fixtures" class="tab-content">
             <div class="card">
-                <h2>Fixtures & Results</h2>
-                <div class="editable" contenteditable="false" id="fixturesText" onblur="saveContent('fixturesText')" style="line-height: 1.6;">• PSA U19 vs City Youth FC — Saturday, 10:00 AM<br>• PSA U17 2 - 1 Academy Legends</div>
+                <h2>Upcoming Fixtures</h2>
+                <div class="editable" contenteditable="false" id="fixturesText" onblur="saveContent('fixturesText')" style="line-height: 1.6;">
+                    • PSA U19 vs City Youth FC — Saturday, 10:00 AM (Home)<br>
+                    • PSA U17 vs Metro Academy — Sunday, 2:00 PM (Away)
+                </div>
+            </div>
+            <div class="card">
+                <h2>Recent Match Results</h2>
+                <div class="editable" contenteditable="false" id="resultsText" onblur="saveContent('resultsText')" style="line-height: 1.6;">
+                    • PSA U17 2 - 1 Academy Legends (Friendly)<br>
+                    • PSA U15 3 - 0 Future Stars FC (League)
+                </div>
+            </div>
+            <div class="card">
+                <h2>Highlights & Media</h2>
+                <div class="editable" contenteditable="false" id="highlightsText" onblur="saveContent('highlightsText')" style="line-height: 1.6;">
+                    Weekly match goals and tactical analysis clips uploaded by coaching staff.
+                </div>
             </div>
         </div>
 
         <!-- GALLERY -->
         <div id="gallery" class="tab-content">
             <div class="card">
-                <h2>Gallery Captions</h2>
-                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom: 12px;">Edit gallery text descriptions below:</p>
-                <div style="margin-bottom: 10px;"><strong style="color:var(--primary);">Photo 1:</strong> <span class="editable" contenteditable="false" id="gal1" onblur="saveContent('gal1')">Training Session</span></div>
-                <div style="margin-bottom: 10px;"><strong style="color:var(--primary);">Photo 2:</strong> <span class="editable" contenteditable="false" id="gal2" onblur="saveContent('gal2')">Match Day Action</span></div>
-                <div class="gallery-grid" style="margin-top:16px;">
-                    <div class="gallery-item"><img src="badge.png" alt="Training" style="opacity:0.6;"><span style="position:absolute;" id="gal1Disp">Training Session</span></div>
-                    <div class="gallery-item"><img src="badge.png" alt="Matches" style="opacity:0.6;"><span style="position:absolute;" id="gal2Disp">Match Day Action</span></div>
+                <h2>Academy Photo Gallery</h2>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom: 12px;">Admin can upload or change photos directly from your phone gallery:</p>
+                
+                <div class="gallery-grid" id="galleryContainer">
+                    <!-- Dynamic gallery items -->
                 </div>
             </div>
         </div>
@@ -209,12 +230,26 @@
         <div id="register" class="tab-content">
             <div class="card">
                 <h2>Player Registration</h2>
-                <form onsubmit="event.preventDefault(); alert('Submitted successfully!');">
-                    <label>Full Name</label><input type="text" required>
+                <form onsubmit="event.preventDefault(); alert('Registration submitted successfully!');">
+                    <label>Player Full Name</label>
+                    <input type="text" required placeholder="Enter name">
+
                     <label>Age Group</label>
-                    <select><option>U11</option><option>U13</option><option>U15</option><option>U17</option><option>U19</option></select>
-                    <label>Contact</label><input type="tel" required>
-                    <button type="submit" class="btn" style="width:100%; margin-top:16px;">Submit</button>
+                    <select>
+                        <option>Under 11 (U11)</option>
+                        <option>Under 13 (U13)</option>
+                        <option>Under 15 (U15)</option>
+                        <option>Under 17 (U17)</option>
+                        <option>Under 19 (U19)</option>
+                    </select>
+
+                    <label>Parent / Guardian Contact</label>
+                    <input type="tel" required placeholder="Phone number">
+
+                    <label>Upload Player Photo</label>
+                    <input type="file" accept="image/*">
+
+                    <button type="submit" class="btn" style="width:100%; margin-top:16px;">Submit Registration</button>
                 </form>
             </div>
         </div>
@@ -223,8 +258,8 @@
     <script>
         let isAdmin = false;
 
-        // Persistent storage loader for all text blocks
-        const textIds = ['visionText', 'missionText', 'philosophyText', 'valuesList', 'u11Text', 'u13Text', 'u15Text', 'u17Text', 'u19Text', 'newsText', 'fixturesText', 'gal1', 'gal2'];
+        // Persistent text storage
+        const textIds = ['visionText', 'missionText', 'philosophyText', 'valuesList', 'squadsText', 'newsText', 'fixturesText', 'resultsText', 'highlightsText'];
         
         function loadSavedContent() {
             textIds.forEach(id => {
@@ -234,27 +269,14 @@
                     if (el) el.innerHTML = saved;
                 }
             });
-            syncGallery();
         }
 
         function saveContent(id) {
             const el = document.getElementById(id);
-            if (el) {
-                localStorage.setItem('psa_' + id, el.innerHTML);
-                if(id.startsWith('gal')) syncGallery();
-            }
+            if (el) localStorage.setItem('psa_' + id, el.innerHTML);
         }
 
-        function syncGallery() {
-            const g1 = document.getElementById('gal1');
-            const g1Disp = document.getElementById('gal1Disp');
-            if(g1 && g1Disp) g1Disp.innerText = g1.innerText;
-
-            const g2 = document.getElementById('gal2');
-            const g2Disp = document.getElementById('gal2Disp');
-            if(g2 && g2Disp) g2Disp.innerText = g2.innerText;
-        }
-
+        // Staff Data with direct image file upload
         let defaultStaff = [
             { name: "Coach David Mwangi", role: "Head Coach", desc: "Over 12 years of youth development experience.", img: "badge.png" },
             { name: "Coach Sarah Ochieng", role: "Goalkeeping Coach", desc: "Specializing in reflexes and distribution.", img: "badge.png" }
@@ -270,10 +292,11 @@
             staffList.forEach((staff, index) => {
                 container.innerHTML += `
                     <div class="staff-card">
-                        <div class="staff-img-container"><img src="${staff.img}" alt="Photo"></div>
+                        <div class="staff-img-container"><img src="${staff.img}" alt="Photo" id="staffImg-${index}"></div>
                         <div style="flex-grow: 1;">
-                            <div class="admin-only-control" style="margin-bottom: 4px;">
-                                <input type="text" value="${staff.img}" placeholder="Photo URL" onchange="updateStaff(${index}, 'img', this.value)" style="font-size:0.75rem; padding:4px; width:100%; background:#0f172a; color:#fff; border:1px solid #475569; border-radius:4px;">
+                            <div class="admin-only-control" style="margin-bottom: 6px;">
+                                <label style="font-size:0.75rem; color:var(--primary); margin:0 0 2px 0;">Upload Photo:</label>
+                                <input type="file" accept="image/*" onchange="uploadStaffImg(event, ${index})" style="font-size:0.75rem; padding:4px;">
                             </div>
                             <strong style="color: var(--primary);" class="editable" contenteditable="${isAdmin}" onblur="updateStaff(${index}, 'name', this.innerText)">${staff.name}</strong>
                             <div style="font-size:0.85rem;" class="editable" contenteditable="${isAdmin}" onblur="updateStaff(${index}, 'role', this.innerText)">${staff.role}</div>
@@ -285,10 +308,22 @@
             });
         }
 
+        function uploadStaffImg(event, index) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    staffList[index].img = e.target.result;
+                    saveStaff();
+                    renderStaff();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
         function updateStaff(i, field, val) {
-            staffList[i][field] = val ? val : 'badge.png';
+            staffList[i][field] = val;
             saveStaff();
-            if(field === 'img') renderStaff();
         }
 
         function addStaffMember() {
@@ -299,6 +334,123 @@
 
         function removeStaff(i) {
             if(confirm("Remove staff member?")) { staffList.splice(i, 1); saveStaff(); renderStaff(); }
+        }
+
+        // Player Profiles Data
+        let defaultPlayers = [
+            { name: "John Kamau", pos: "Forward (U17)", desc: "Top goal scorer with exceptional pace.", img: "badge.png" }
+        ];
+        let playerList = JSON.parse(localStorage.getItem('psa_players')) || defaultPlayers;
+
+        function savePlayers() { localStorage.setItem('psa_players', JSON.stringify(playerList)); }
+
+        function renderPlayers() {
+            const container = document.getElementById('playerContainer');
+            if (!container) return;
+            container.innerHTML = '';
+            playerList.forEach((player, index) => {
+                container.innerHTML += `
+                    <div class="player-card">
+                        <div class="player-img-container"><img src="${player.img}" alt="Player Photo"></div>
+                        <div style="flex-grow: 1;">
+                            <div class="admin-only-control" style="margin-bottom: 6px;">
+                                <label style="font-size:0.75rem; color:var(--primary); margin:0 0 2px 0;">Upload Photo:</label>
+                                <input type="file" accept="image/*" onchange="uploadPlayerImg(event, ${index})" style="font-size:0.75rem; padding:4px;">
+                            </div>
+                            <strong style="color: var(--primary);" class="editable" contenteditable="${isAdmin}" onblur="updatePlayer(${index}, 'name', this.innerText)">${player.name}</strong>
+                            <div style="font-size:0.85rem;" class="editable" contenteditable="${isAdmin}" onblur="updatePlayer(${index}, 'pos', this.innerText)">${player.pos}</div>
+                            <p class="editable" contenteditable="${isAdmin}" onblur="updatePlayer(${index}, 'desc', this.innerText)" style="margin: 4px 0 0 0; font-size:0.85rem;">${player.desc}</p>
+                            <button class="btn-danger admin-only-control" onclick="removePlayer(${index})">Remove Player</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function uploadPlayerImg(event, index) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    playerList[index].img = e.target.result;
+                    savePlayers();
+                    renderPlayers();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function updatePlayer(i, field, val) {
+            playerList[i][field] = val;
+            savePlayers();
+        }
+
+        function addPlayerProfile() {
+            playerList.push({ name: "Player Name", pos: "Position / Squad", desc: "Player attributes...", img: "badge.png" });
+            savePlayers();
+            renderPlayers();
+        }
+
+        function removePlayer(i) {
+            if(confirm("Remove player profile?")) { playerList.splice(i, 1); savePlayers(); renderPlayers(); }
+        }
+
+        // Gallery Data with Photo Uploads
+        let defaultGallery = [
+            { img: "badge.png", caption: "Training Session" },
+            { img: "badge.png", caption: "Match Day Action" }
+        ];
+        let galleryList = JSON.parse(localStorage.getItem('psa_gallery')) || defaultGallery;
+
+        function saveGallery() { localStorage.setItem('psa_gallery', JSON.stringify(galleryList)); }
+
+        function renderGallery() {
+            const container = document.getElementById('galleryContainer');
+            if (!container) return;
+            container.innerHTML = '';
+            galleryList.forEach((item, index) => {
+                container.innerHTML += `
+                    <div class="gallery-item">
+                        <img src="${item.img}" alt="Gallery Photo" style="opacity:0.7;">
+                        <span style="position:absolute; bottom:5px; background:rgba(0,0,0,0.7); padding:2px 6px; border-radius:4px; font-size:0.75rem;" class="editable" contenteditable="${isAdmin}" onblur="updateGalleryCaption(${index}, this.innerText)">${item.caption}</span>
+                        <div class="admin-only-control" style="position:absolute; top:5px; right:5px; background:rgba(0,0,0,0.8); padding:2px;">
+                            <input type="file" accept="image/*" onchange="uploadGalleryImg(event, ${index})" style="font-size:0.6rem; width:80px;">
+                        </div>
+                    </div>
+                `;
+            });
+            if(isAdmin) {
+                container.innerHTML += `
+                    <div class="gallery-item admin-only-control" style="background:#1e293b; border: 2px dashed var(--primary); cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:center;" onclick="addGalleryItem()">
+                        <span style="font-size:1.5rem; color:var(--primary);">+</span>
+                        <span style="font-size:0.75rem;">Add Photo</span>
+                    </div>
+                `;
+            }
+        }
+
+        function uploadGalleryImg(event, index) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    galleryList[index].img = e.target.result;
+                    saveGallery();
+                    renderGallery();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function updateGalleryCaption(index, text) {
+            galleryList[index].caption = text;
+            saveGallery();
+        }
+
+        function addGalleryItem() {
+            galleryList.push({ img: "badge.png", caption: "New Photo" });
+            saveGallery();
+            renderGallery();
         }
 
         function switchTab(id, btn) {
@@ -328,6 +480,8 @@
                 editables.forEach(el => el.setAttribute('contenteditable', 'false'));
             }
             renderStaff();
+            renderPlayers();
+            renderGallery();
         }
 
         function openRegister() { document.querySelectorAll('.tab-btn')[6].click(); }
@@ -335,6 +489,8 @@
         // Initialize on load
         loadSavedContent();
         renderStaff();
+        renderPlayers();
+        renderGallery();
     </script>
 </body>
 </html>
