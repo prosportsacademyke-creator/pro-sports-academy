@@ -127,19 +127,19 @@
         <div id="about" class="tab-content active">
             <div class="card">
                 <h2>Our Vision</h2>
-                <p class="editable" contenteditable="false">To become a leading football academy in Kenya and beyond, recognized for producing talented, disciplined, and intelligent players.</p>
+                <p class="editable" contenteditable="false" id="visionText" onblur="saveContent('visionText')">To become a leading football academy in Kenya and beyond, recognized for producing talented, disciplined, and intelligent players.</p>
             </div>
             <div class="card">
                 <h2>Our Mission</h2>
-                <p class="editable" contenteditable="false">To develop young footballers through professional training, mentorship, and competitive exposure while promoting discipline, education, and life skills.</p>
+                <p class="editable" contenteditable="false" id="missionText" onblur="saveContent('missionText')">To develop young footballers through professional training, mentorship, and competitive exposure while promoting discipline, education, and life skills.</p>
             </div>
             <div class="card">
                 <h2>Academy Philosophy</h2>
-                <p class="editable" contenteditable="false">We believe in holistic player development focusing on technical brilliance, tactical understanding, character building, and academic balance.</p>
+                <p class="editable" contenteditable="false" id="philosophyText" onblur="saveContent('philosophyText')">We believe in holistic player development focusing on technical brilliance, tactical understanding, character building, and academic balance.</p>
             </div>
             <div class="card">
                 <h2>Core Values</h2>
-                <ul class="editable" contenteditable="false">
+                <ul class="editable" contenteditable="false" id="valuesList" onblur="saveContent('valuesList')">
                     <li>Discipline & Commitment</li>
                     <li>Teamwork & Respect</li>
                     <li>Integrity & Excellence</li>
@@ -163,15 +163,15 @@
         <div id="roster" class="tab-content">
             <div class="card">
                 <h2>Squads & Age Categories (U11 - U19)</h2>
-                <div style="margin-bottom: 14px;"><strong style="color: var(--primary);">Under 11 (U11)</strong><p class="editable" contenteditable="false" style="margin: 4px 0 0 0; font-size:0.85rem;">Focuses on ball mastery and coordination.</p></div>
+                <div style="margin-bottom: 14px;"><strong style="color: var(--primary);">Under 11 (U11)</strong><p class="editable" contenteditable="false" id="u11Text" onblur="saveContent('u11Text')" style="margin: 4px 0 0 0; font-size:0.85rem;">Focuses on ball mastery and coordination.</p></div>
                 <hr style="border:0; border-top:1px solid #334155; margin: 12px 0;">
-                <div style="margin-bottom: 14px;"><strong style="color: var(--primary);">Under 13 (U13)</strong><p class="editable" contenteditable="false" style="margin: 4px 0 0 0; font-size:0.85rem;">Introduction to tactical positioning.</p></div>
+                <div style="margin-bottom: 14px;"><strong style="color: var(--primary);">Under 13 (U13)</strong><p class="editable" contenteditable="false" id="u13Text" onblur="saveContent('u13Text')" style="margin: 4px 0 0 0; font-size:0.85rem;">Introduction to tactical positioning.</p></div>
                 <hr style="border:0; border-top:1px solid #334155; margin: 12px 0;">
-                <div style="margin-bottom: 14px;"><strong style="color: var(--primary);">Under 15 (U15)</strong><p class="editable" contenteditable="false" style="margin: 4px 0 0 0; font-size:0.85rem;">Advanced technical drills and league fixtures.</p></div>
+                <div style="margin-bottom: 14px;"><strong style="color: var(--primary);">Under 15 (U15)</strong><p class="editable" contenteditable="false" id="u15Text" onblur="saveContent('u15Text')" style="margin: 4px 0 0 0; font-size:0.85rem;">Advanced technical drills and league fixtures.</p></div>
                 <hr style="border:0; border-top:1px solid #334155; margin: 12px 0;">
-                <div style="margin-bottom: 14px;"><strong style="color: var(--primary);">Under 17 (U17)</strong><p class="editable" contenteditable="false" style="margin: 4px 0 0 0; font-size:0.85rem;">High-intensity training and scouting exposure.</p></div>
+                <div style="margin-bottom: 14px;"><strong style="color: var(--primary);">Under 17 (U17)</strong><p class="editable" contenteditable="false" id="u17Text" onblur="saveContent('u17Text')" style="margin: 4px 0 0 0; font-size:0.85rem;">High-intensity training and scouting exposure.</p></div>
                 <hr style="border:0; border-top:1px solid #334155; margin: 12px 0;">
-                <div><strong style="color: var(--primary);">Under 19 (U19)</strong><p class="editable" contenteditable="false" style="margin: 4px 0 0 0; font-size:0.85rem;">Bridging youth football to professional leagues.</p></div>
+                <div><strong style="color: var(--primary);">Under 19 (U19)</strong><p class="editable" contenteditable="false" id="u19Text" onblur="saveContent('u19Text')" style="margin: 4px 0 0 0; font-size:0.85rem;">Bridging youth football to professional leagues.</p></div>
             </div>
         </div>
 
@@ -179,7 +179,7 @@
         <div id="news" class="tab-content">
             <div class="card">
                 <h2>Team News</h2>
-                <div class="editable" contenteditable="false" style="line-height: 1.6;">Welcome to the 2026 season! Trials for our U19 and U17 Elite Squads are open this coming Saturday.</div>
+                <div class="editable" contenteditable="false" id="newsText" onblur="saveContent('newsText')" style="line-height: 1.6;">Welcome to the 2026 season! Trials for our U19 and U17 Elite Squads are open this coming Saturday.</div>
             </div>
         </div>
 
@@ -187,17 +187,20 @@
         <div id="fixtures" class="tab-content">
             <div class="card">
                 <h2>Fixtures & Results</h2>
-                <div class="editable" contenteditable="false" style="line-height: 1.6;">• PSA U19 vs City Youth FC — Saturday, 10:00 AM<br>• PSA U17 2 - 1 Academy Legends</div>
+                <div class="editable" contenteditable="false" id="fixturesText" onblur="saveContent('fixturesText')" style="line-height: 1.6;">• PSA U19 vs City Youth FC — Saturday, 10:00 AM<br>• PSA U17 2 - 1 Academy Legends</div>
             </div>
         </div>
 
         <!-- GALLERY -->
         <div id="gallery" class="tab-content">
             <div class="card">
-                <h2>Gallery</h2>
-                <div class="gallery-grid">
-                    <div class="gallery-item"><img src="badge.png" alt="Training" style="opacity:0.6;"><span style="position:absolute;">Training</span></div>
-                    <div class="gallery-item"><img src="badge.png" alt="Matches" style="opacity:0.6;"><span style="position:absolute;">Matches</span></div>
+                <h2>Gallery Captions</h2>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom: 12px;">Edit gallery text descriptions below:</p>
+                <div style="margin-bottom: 10px;"><strong style="color:var(--primary);">Photo 1:</strong> <span class="editable" contenteditable="false" id="gal1" onblur="saveContent('gal1')">Training Session</span></div>
+                <div style="margin-bottom: 10px;"><strong style="color:var(--primary);">Photo 2:</strong> <span class="editable" contenteditable="false" id="gal2" onblur="saveContent('gal2')">Match Day Action</span></div>
+                <div class="gallery-grid" style="margin-top:16px;">
+                    <div class="gallery-item"><img src="badge.png" alt="Training" style="opacity:0.6;"><span style="position:absolute;" id="gal1Disp">Training Session</span></div>
+                    <div class="gallery-item"><img src="badge.png" alt="Matches" style="opacity:0.6;"><span style="position:absolute;" id="gal2Disp">Match Day Action</span></div>
                 </div>
             </div>
         </div>
@@ -219,6 +222,39 @@
 
     <script>
         let isAdmin = false;
+
+        // Persistent storage loader for all text blocks
+        const textIds = ['visionText', 'missionText', 'philosophyText', 'valuesList', 'u11Text', 'u13Text', 'u15Text', 'u17Text', 'u19Text', 'newsText', 'fixturesText', 'gal1', 'gal2'];
+        
+        function loadSavedContent() {
+            textIds.forEach(id => {
+                const saved = localStorage.getItem('psa_' + id);
+                if (saved !== null) {
+                    const el = document.getElementById(id);
+                    if (el) el.innerHTML = saved;
+                }
+            });
+            syncGallery();
+        }
+
+        function saveContent(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                localStorage.setItem('psa_' + id, el.innerHTML);
+                if(id.startsWith('gal')) syncGallery();
+            }
+        }
+
+        function syncGallery() {
+            const g1 = document.getElementById('gal1');
+            const g1Disp = document.getElementById('gal1Disp');
+            if(g1 && g1Disp) g1Disp.innerText = g1.innerText;
+
+            const g2 = document.getElementById('gal2');
+            const g2Disp = document.getElementById('gal2Disp');
+            if(g2 && g2Disp) g2Disp.innerText = g2.innerText;
+        }
+
         let defaultStaff = [
             { name: "Coach David Mwangi", role: "Head Coach", desc: "Over 12 years of youth development experience.", img: "badge.png" },
             { name: "Coach Sarah Ochieng", role: "Goalkeeping Coach", desc: "Specializing in reflexes and distribution.", img: "badge.png" }
@@ -276,22 +312,28 @@
             isAdmin = !isAdmin;
             const body = document.getElementById('appBody');
             const btn = document.getElementById('adminToggleBtn');
+            const editables = document.querySelectorAll('.editable');
+
             if (isAdmin) {
                 body.classList.add('admin-mode');
                 btn.innerText = "Exit Admin";
                 btn.style.background = "#ef4444";
                 btn.style.color = "#fff";
+                editables.forEach(el => el.setAttribute('contenteditable', 'true'));
             } else {
                 body.classList.remove('admin-mode');
                 btn.innerText = "Admin";
                 btn.style.background = "transparent";
                 btn.style.color = "var(--primary)";
+                editables.forEach(el => el.setAttribute('contenteditable', 'false'));
             }
             renderStaff();
         }
 
         function openRegister() { document.querySelectorAll('.tab-btn')[6].click(); }
 
+        // Initialize on load
+        loadSavedContent();
         renderStaff();
     </script>
 </body>
